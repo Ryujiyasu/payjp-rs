@@ -4,10 +4,11 @@ use serde::Serialize;
 
 use crate::error::{ApiErrorResponse, PayjpError, Result};
 
-const BASE_URL: &str = "https://api.pay.jp/v1";
+const DEFAULT_BASE_URL: &str = "https://api.pay.jp/v1";
 
 pub struct PayjpClient {
     secret_key: String,
+    base_url: String,
     http: Client,
 }
 
@@ -15,6 +16,16 @@ impl PayjpClient {
     pub fn new(secret_key: impl Into<String>) -> Self {
         Self {
             secret_key: secret_key.into(),
+            base_url: DEFAULT_BASE_URL.to_string(),
+            http: Client::new(),
+        }
+    }
+
+    /// Create a client with a custom base URL (useful for testing).
+    pub fn with_base_url(secret_key: impl Into<String>, base_url: impl Into<String>) -> Self {
+        Self {
+            secret_key: secret_key.into(),
+            base_url: base_url.into(),
             http: Client::new(),
         }
     }
@@ -22,8 +33,24 @@ impl PayjpClient {
     pub(crate) async fn get<T: DeserializeOwned>(&self, path: &str) -> Result<T> {
         let resp = self
             .http
-            .get(format!("{BASE_URL}{path}"))
+            .get(format!("{}{path}", self.base_url))
             .basic_auth(&self.secret_key, Option::<&str>::None)
+            .send()
+            .await?;
+
+        self.handle_response(resp).await
+    }
+
+    pub(crate) async fn get_with_query<T: DeserializeOwned>(
+        &self,
+        path: &str,
+        params: &impl Serialize,
+    ) -> Result<T> {
+        let resp = self
+            .http
+            .get(format!("{}{path}", self.base_url))
+            .basic_auth(&self.secret_key, Option::<&str>::None)
+            .query(params)
             .send()
             .await?;
 
@@ -37,7 +64,7 @@ impl PayjpClient {
     ) -> Result<T> {
         let resp = self
             .http
-            .post(format!("{BASE_URL}{path}"))
+            .post(format!("{}{path}", self.base_url))
             .basic_auth(&self.secret_key, Option::<&str>::None)
             .form(params)
             .send()
@@ -49,7 +76,7 @@ impl PayjpClient {
     pub(crate) async fn delete<T: DeserializeOwned>(&self, path: &str) -> Result<T> {
         let resp = self
             .http
-            .delete(format!("{BASE_URL}{path}"))
+            .delete(format!("{}{path}", self.base_url))
             .basic_auth(&self.secret_key, Option::<&str>::None)
             .send()
             .await?;
@@ -57,10 +84,7 @@ impl PayjpClient {
         self.handle_response(resp).await
     }
 
-    async fn handle_response<T: DeserializeOwned>(
-        &self,
-        resp: reqwest::Response,
-    ) -> Result<T> {
+    async fn handle_response<T: DeserializeOwned>(&self, resp: reqwest::Response) -> Result<T> {
         let status = resp.status();
         let body = resp.text().await?;
 

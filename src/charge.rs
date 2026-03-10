@@ -102,16 +102,18 @@ impl PayjpClient {
 
     /// List charges.
     pub async fn list_charges(&self, params: &ListChargesParams) -> Result<List<Charge>> {
-        self.post_form("/charges", params).await
+        self.get_with_query("/charges", params).await
     }
 
     /// Refund a charge.
     pub async fn refund_charge(&self, id: &str, params: &RefundChargeParams) -> Result<Charge> {
-        self.post_form(&format!("/charges/{id}/refund"), params).await
+        self.post_form(&format!("/charges/{id}/refund"), params)
+            .await
     }
 
     /// Capture an authorized charge.
     pub async fn capture_charge(&self, id: &str, params: &CaptureChargeParams) -> Result<Charge> {
-        self.post_form(&format!("/charges/{id}/capture"), params).await
+        self.post_form(&format!("/charges/{id}/capture"), params)
+            .await
     }
 }

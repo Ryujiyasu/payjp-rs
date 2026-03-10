@@ -62,6 +62,6 @@ impl PayjpClient {
     }
 
     pub async fn list_plans(&self, params: &ListParams) -> Result<List<Plan>> {
-        self.post_form("/plans", params).await
+        self.get_with_query("/plans", params).await
     }
 }

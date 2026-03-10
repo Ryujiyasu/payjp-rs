@@ -30,11 +30,7 @@ pub struct UpdateCardParams {
 }
 
 impl PayjpClient {
-    pub async fn create_card(
-        &self,
-        customer_id: &str,
-        params: &CreateCardParams,
-    ) -> Result<Card> {
+    pub async fn create_card(&self, customer_id: &str, params: &CreateCardParams) -> Result<Card> {
         self.post_form(&format!("/customers/{customer_id}/cards"), params)
             .await
     }
@@ -50,11 +46,8 @@ impl PayjpClient {
         card_id: &str,
         params: &UpdateCardParams,
     ) -> Result<Card> {
-        self.post_form(
-            &format!("/customers/{customer_id}/cards/{card_id}"),
-            params,
-        )
-        .await
+        self.post_form(&format!("/customers/{customer_id}/cards/{card_id}"), params)
+            .await
     }
 
     pub async fn delete_card(&self, customer_id: &str, card_id: &str) -> Result<Deleted> {
@@ -62,12 +55,8 @@ impl PayjpClient {
             .await
     }
 
-    pub async fn list_cards(
-        &self,
-        customer_id: &str,
-        params: &ListParams,
-    ) -> Result<List<Card>> {
-        self.post_form(&format!("/customers/{customer_id}/cards"), params)
+    pub async fn list_cards(&self, customer_id: &str, params: &ListParams) -> Result<List<Card>> {
+        self.get_with_query(&format!("/customers/{customer_id}/cards"), params)
             .await
     }
 }

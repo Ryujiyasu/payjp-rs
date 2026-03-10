@@ -78,19 +78,23 @@ impl PayjpClient {
         id: &str,
         params: &UpdateSubscriptionParams,
     ) -> Result<Subscription> {
-        self.post_form(&format!("/subscriptions/{id}"), params).await
+        self.post_form(&format!("/subscriptions/{id}"), params)
+            .await
     }
 
     pub async fn pause_subscription(&self, id: &str) -> Result<Subscription> {
-        self.post_form(&format!("/subscriptions/{id}/pause"), &()).await
+        self.post_form(&format!("/subscriptions/{id}/pause"), &())
+            .await
     }
 
     pub async fn resume_subscription(&self, id: &str) -> Result<Subscription> {
-        self.post_form(&format!("/subscriptions/{id}/resume"), &()).await
+        self.post_form(&format!("/subscriptions/{id}/resume"), &())
+            .await
     }
 
     pub async fn cancel_subscription(&self, id: &str) -> Result<Subscription> {
-        self.post_form(&format!("/subscriptions/{id}/cancel"), &()).await
+        self.post_form(&format!("/subscriptions/{id}/cancel"), &())
+            .await
     }
 
     pub async fn delete_subscription(&self, id: &str) -> Result<Subscription> {
@@ -101,6 +105,6 @@ impl PayjpClient {
         &self,
         params: &ListSubscriptionsParams,
     ) -> Result<List<Subscription>> {
-        self.post_form("/subscriptions", params).await
+        self.get_with_query("/subscriptions", params).await
     }
 }
