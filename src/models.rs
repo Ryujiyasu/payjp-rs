@@ -1,3 +1,5 @@
+//! Shared types used across multiple API modules.
+
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 

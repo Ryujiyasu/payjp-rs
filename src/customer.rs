@@ -1,3 +1,21 @@
+//! Customer API.
+//!
+//! # Example
+//!
+//! ```rust,no_run
+//! # async fn example() -> Result<(), Box<dyn std::error::Error>> {
+//! use payjp_rs::PayjpClient;
+//! use payjp_rs::customer::CreateCustomerParams;
+//!
+//! let client = PayjpClient::new("sk_test_xxx");
+//! let customer = client.create_customer(&CreateCustomerParams {
+//!     email: Some("user@example.com".to_string()),
+//!     ..Default::default()
+//! }).await?;
+//! # Ok(())
+//! # }
+//! ```
+
 use serde::{Deserialize, Serialize};
 
 use crate::client::PayjpClient;

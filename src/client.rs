@@ -6,6 +6,17 @@ use crate::error::{ApiErrorResponse, PayjpError, Result};
 
 const DEFAULT_BASE_URL: &str = "https://api.pay.jp/v1";
 
+/// PAY.JP API client.
+///
+/// Handles authentication and HTTP communication with the PAY.JP API.
+///
+/// # Example
+///
+/// ```rust,no_run
+/// use payjp_rs::PayjpClient;
+///
+/// let client = PayjpClient::new("sk_test_your_secret_key");
+/// ```
 pub struct PayjpClient {
     secret_key: String,
     base_url: String,
@@ -13,6 +24,7 @@ pub struct PayjpClient {
 }
 
 impl PayjpClient {
+    /// Create a new client with the given secret API key.
     pub fn new(secret_key: impl Into<String>) -> Self {
         Self {
             secret_key: secret_key.into(),

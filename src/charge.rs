@@ -1,3 +1,27 @@
+//! Charge (payment) API.
+//!
+//! # Example
+//!
+//! ```rust,no_run
+//! # async fn example() -> Result<(), Box<dyn std::error::Error>> {
+//! use payjp_rs::PayjpClient;
+//! use payjp_rs::charge::CreateChargeParams;
+//!
+//! let client = PayjpClient::new("sk_test_xxx");
+//!
+//! // Create a charge with a token
+//! let charge = client.create_charge(&CreateChargeParams {
+//!     amount: 1000,
+//!     card: Some("tok_xxxxx".to_string()),
+//!     ..Default::default()
+//! }).await?;
+//!
+//! // Retrieve the charge
+//! let charge = client.retrieve_charge(&charge.id).await?;
+//! # Ok(())
+//! # }
+//! ```
+
 use serde::{Deserialize, Serialize};
 
 use crate::client::PayjpClient;

@@ -1,3 +1,5 @@
+//! Card API for managing customer payment cards.
+
 use serde::Serialize;
 
 use crate::client::PayjpClient;

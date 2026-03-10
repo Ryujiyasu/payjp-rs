@@ -1,3 +1,5 @@
+//! Plan API for managing recurring billing plans.
+
 use serde::{Deserialize, Serialize};
 
 use crate::client::PayjpClient;

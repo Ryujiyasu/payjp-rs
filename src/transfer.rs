@@ -1,3 +1,5 @@
+//! Transfer (payout) API for retrieving transfer information.
+
 use serde::{Deserialize, Serialize};
 
 use crate::charge::Charge;

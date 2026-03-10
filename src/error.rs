@@ -1,5 +1,8 @@
+//! Error types for the PAY.JP SDK.
+
 use serde::Deserialize;
 
+/// Errors that can occur when interacting with the PAY.JP API.
 #[derive(Debug, thiserror::Error)]
 pub enum PayjpError {
     #[error("API error: {0}")]
@@ -10,6 +13,9 @@ pub enum PayjpError {
 
     #[error("JSON error: {0}")]
     Json(#[from] serde_json::Error),
+
+    #[error("Webhook verification failed: {0}")]
+    WebhookVerification(String),
 }
 
 #[derive(Debug, Deserialize)]

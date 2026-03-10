@@ -1,3 +1,8 @@
+//! Token API for tokenizing card information.
+//!
+//! Note: Tokens are typically created client-side using PAY.JP's JavaScript library.
+//! Server-side token creation requires PCI DSS compliance.
+
 use serde::{Deserialize, Serialize};
 
 use crate::client::PayjpClient;

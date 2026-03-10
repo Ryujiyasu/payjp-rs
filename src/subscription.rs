@@ -1,3 +1,7 @@
+//! Subscription API for managing recurring payments.
+//!
+//! Subscriptions can be paused, resumed, and canceled.
+
 use serde::{Deserialize, Serialize};
 
 use crate::client::PayjpClient;

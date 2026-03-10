@@ -1,3 +1,8 @@
+//! Event API for retrieving webhook events.
+//!
+//! Events represent things that happen in your PAY.JP account,
+//! such as charges being created, customers being updated, etc.
+
 use serde::{Deserialize, Serialize};
 
 use crate::client::PayjpClient;
